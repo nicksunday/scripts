@@ -1,0 +1,6 @@
+#!/bin/bash
+
+vim Chart.yaml 
+VERSION=$(grep "^version:" Chart.yaml | awk '{ print $2 }') 
+git commit -a -m "Version bump ${VERSION}"
+git tag $VERSION && git push origin --all && git push origin --tags

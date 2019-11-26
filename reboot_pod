@@ -1,0 +1,17 @@
+#!/bin/bash
+
+DEPLOYMENT=$1
+
+REPLICAS=$2
+
+if [ ! -z "$DEPLOYMENT" ]
+then
+    if [ ! -z "$REPLICAS" ]
+    then
+        kubectl scale deploy $DEPLOYMENT --replicas=0 && kubectl scale deploy $DEPLOYMENT --replicas=$REPLICAS
+    else
+        echo "Please supply the number of replicas for the $DEPLOYMENT deployment."
+    fi
+else
+    echo "Please supply the deployment you wish to reboot and the number of replicas."
+fi
