@@ -12,7 +12,12 @@ function export {
     done
 }
 
-PS3='Please select a Kubernetes object you want to export as a yaml file: '
+PS3="""
+*NOTE* Files will be created in the current working directory
+Please select the number of the Kubernetes object type you want to export as a yaml file.
+
+Selection: """
+     
 options=("Pod" "Statefulset" "Deployment" "Replicaset" "Daemonset" "Service" "Sercret" "All" "Quit")
 select opt in "${options[@]}"
 do
