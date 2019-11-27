@@ -12,6 +12,8 @@ function export {
     done
 }
 
+command -v kubectl >/dev/null 2>&1 || { echo >&2 "kubectl is required but is not found. Aborting."; exit 1; }
+
 PS3="""
 *NOTE* Files will be created in the current working directory
 Please select the number of the Kubernetes object type you want to export as a yaml file.
