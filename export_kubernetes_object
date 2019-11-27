@@ -1,0 +1,50 @@
+#!/bin/bash
+
+function export {
+    object_type=$1
+    objects=$(kubectl get $object_type -o name)
+    for object in $objects
+    do
+        object_name=$(echo $object | cut -f2 -d'/')
+        echo "Copying ${object} to ${object_name}.yaml"
+        kubectl get $object -o yaml | egrep -v "creationTimestamp|namespace:|resourceVersion|selfLink|uid" > ${object_name}.yaml
+        echo
+    done
+}
+
+PS3='Please select a Kubernetes object you want to export as a yaml file: '
+options=("Pod" "Statefulset" "Deployment" "Replicaset" "Daemonset" "Service" "Sercret" "All" "Quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Pod")
+            export pod
+            ;;
+        "Statefulset")
+            export statefulset
+            ;;
+        "Deployment")
+            export deployment
+            ;;
+        "Replicaset")
+            export replicaset
+            ;;
+        "Daemonset")
+            export daemonset
+            ;;
+        "Service")
+            export service
+            ;;
+        "Sercret")
+            export secret
+            ;;
+        "All")
+            echo "*NOTE* 'all' does not include secrets."
+            export all
+            ;;
+        "Quit")
+            break
+            ;;
+        *) echo "Invalid option $REPLY";;
+    esac
+done
