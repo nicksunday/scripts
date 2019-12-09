@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function export {
+function export_object {
     object_type=$1
     objects=$(kubectl get $object_type -o name)
     for object in $objects
@@ -16,7 +16,7 @@ command -v kubectl >/dev/null 2>&1 || { echo >&2 "kubectl is required but is not
 
 PS3="""
 *NOTE* Files will be created in the current working directory
-Please select the number of the Kubernetes object type you want to export as a yaml file.
+Please select the number of the Kubernetes object type you want to export_object as a yaml file.
 
 Selection: """
      
@@ -25,29 +25,29 @@ select opt in "${options[@]}"
 do
     case $opt in
         "Pod")
-            export pod
+            export_object pod
             ;;
         "Statefulset")
-            export statefulset
+            export_object statefulset
             ;;
         "Deployment")
-            export deployment
+            export_object deployment
             ;;
         "Replicaset")
-            export replicaset
+            export_object replicaset
             ;;
         "Daemonset")
-            export daemonset
+            export_object daemonset
             ;;
         "Service")
-            export service
+            export_object service
             ;;
         "Sercret")
-            export secret
+            export_object secret
             ;;
         "All")
             echo "*NOTE* 'all' does not include secrets."
-            export all
+            export_object all
             ;;
         "Quit")
             break
