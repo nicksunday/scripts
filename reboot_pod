@@ -1,8 +1,12 @@
 #!/bin/bash
 
+command -v kubectl >/dev/null 2>&1 || { echo >&2 "kubectl is required but is not found. Aborting."; exit 1; }
+
 DEPLOYMENT=$1
 
-REPLICAS=$2
+# REPLICAS=$2
+
+REPLICAS=$(kubectl get deploy $DEPLOYMENT -o jsonpath="{.status.replicas}" 2> /dev/null)
 
 if [ ! -z "$DEPLOYMENT" ]
 then
@@ -10,7 +14,8 @@ then
     then
         kubectl scale deploy $DEPLOYMENT --replicas=0 && kubectl scale deploy $DEPLOYMENT --replicas=$REPLICAS
     else
-        echo "Please supply the number of replicas for the $DEPLOYMENT deployment."
+        # echo "Please supply the number of replicas for the $DEPLOYMENT deployment."
+        echo "$DEPLOYMENT is not a valid deployment."
     fi
 else
     echo "Please supply the deployment you wish to reboot and the number of replicas."
