@@ -20,7 +20,7 @@ Please select the number of the Kubernetes object type you want to export_object
 
 Selection: """
      
-options=("Pod" "Statefulset" "Deployment" "Replicaset" "Daemonset" "Service" "Sercret" "All" "Quit")
+options=("Pod" "Statefulset" "Deployment" "Replicaset" "Daemonset" "Service" "Secret" "Configmap" "All" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -42,8 +42,11 @@ do
         "Service")
             export_object service
             ;;
-        "Sercret")
+        "Secret")
             export_object secret
+            ;;
+        "Configmap")
+            export_object configmap
             ;;
         "All")
             echo "*NOTE* 'all' does not include secrets."
